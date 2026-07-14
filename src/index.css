@@ -23,7 +23,7 @@ body {
 .page {
   display: grid;
   gap: 20px;
-  width: min(440px, 100%);
+  width: min(560px, 100%);
 }
 
 .card {
@@ -52,23 +52,40 @@ p {
 }
 
 .controls {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 12px;
-  justify-content: center;
   margin-top: 18px;
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .controls label {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border-radius: 14px;
-  border: 1px solid #e2e8f0;
   font-weight: 600;
   cursor: pointer;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 600;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 .burger-stack {
@@ -120,12 +137,13 @@ p {
   background: #15803d;
 }
 
-@media (max-width: 480px) {
-  .card {
-    padding: 18px;
+@media (max-width: 520px) {
+  .control-row {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .controls {
-    gap: 10px;
+  button {
+    width: 100%;
   }
 }
