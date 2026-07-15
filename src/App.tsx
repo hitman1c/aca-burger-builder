@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// Each part of the burger is a small component.
 function TopBread() {
   return <div className="burger-part top-bread"></div>;
 }
@@ -20,6 +21,7 @@ function BaseBread() {
   return <div className="burger-part base-bread"></div>;
 }
 
+// This list is used to render the controls for the burger fillings.
 const ingredientList = [
   { id: 'tomato', label: 'Tomato' },
   { id: 'meat', label: 'Meat' },
@@ -27,12 +29,14 @@ const ingredientList = [
 ];
 
 export default function App() {
+  // State stores which ingredients should be visible in the burger preview.
   const [ingredients, setIngredients] = useState({
     tomato: true,
     meat: true,
     lettuce: true,
   });
 
+  // This helper updates the chosen ingredient and keeps the UI in sync.
   const toggleIngredient = (name: keyof typeof ingredients) => {
     setIngredients((current) => ({
       ...current,
@@ -44,27 +48,32 @@ export default function App() {
     <main className="page">
       <section className="card">
         <h1>ACA Burger Builder</h1>
-        <p>Use buttons or checkboxes to add and remove fillings.</p>
+        <p>Use the controls below to add or remove fillings.</p>
 
         <div className="controls">
-          {ingredientList.map((ingredient) => (
-            <div key={ingredient.id} className="control-row">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={ingredients[ingredient.id as keyof typeof ingredients]}
-                  onChange={() => toggleIngredient(ingredient.id as keyof typeof ingredients)}
-                />
-                {ingredient.label}
-              </label>
-              <button
-                type="button"
-                onClick={() => toggleIngredient(ingredient.id as keyof typeof ingredients)}
-              >
-                {ingredients[ingredient.id as keyof typeof ingredients] ? 'Remove' : 'Add'}
-              </button>
-            </div>
-          ))}
+          {ingredientList.map((ingredient) => {
+            const key = ingredient.id as keyof typeof ingredients;
+            const isActive = ingredients[key];
+
+            return (
+              <div key={ingredient.id} className="control-row">
+                {/* Checkbox gives a simple on-off control. */}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={isActive}
+                    onChange={() => toggleIngredient(key)}
+                  />
+                  {ingredient.label}
+                </label>
+
+                {/* Button gives an extra action for the same toggle logic. */}
+                <button type="button" onClick={() => toggleIngredient(key)}>
+                  {isActive ? 'Remove' : 'Add'}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -72,6 +81,7 @@ export default function App() {
         <h2>Burger Preview</h2>
         <div className="burger-stack">
           <TopBread />
+          {/* Conditional rendering decides whether each filling appears. */}
           {ingredients.tomato && <Tomato />}
           {ingredients.meat && <Meat />}
           {ingredients.lettuce && <Lettuce />}
